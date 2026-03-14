@@ -13,97 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Inter:wght@300;400;600;800&display=swap"
         rel="stylesheet">
-
-    <style>
-        :root {
-            --bg: #fafaf9;
-            --accent: #c5a367;
-            --dark: #1c1917;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-
-        h1,
-        h2,
-        h3,
-        .serif {
-            font-family: 'Playfair Display', serif;
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .custom-cursor {
-            width: 20px;
-            height: 20px;
-            border: 1px solid var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
-        }
-
-        .img-container {
-            position: relative;
-            background: #e7e5e4;
-            overflow: hidden;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .img-container:hover img {
-            transform: scale(1.05);
-        }
-
-        .line-anim {
-            width: 0%;
-            height: 1px;
-            background: var(--accent);
-            margin-top: 10px;
-        }
-
-        .marquee-container {
-            background: var(--dark);
-            padding: 2rem 0;
-            white-space: nowrap;
-            overflow: hidden;
-            display: flex;
-        }
-
-        .marquee-text {
-            font-size: 5rem;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.05);
-            text-transform: uppercase;
-            padding-right: 50px;
-        }
-
-        /* Responsive Mobile Fixes */
-        @media (max-width: 768px) {
-            .marquee-text {
-                font-size: 3rem;
-            }
-
-            .hero-title {
-                font-size: 4rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body class="antialiased">
@@ -127,7 +37,8 @@
         </div>
         <div class="flex gap-10 items-center">
             <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-widest text-white/60">
-                <a href="#work" class="hover:text-white transition-colors">Portfolio</a>
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <a href="#work" class="hover:text-white transition-colors">Projects</a>
                 <a href="#about" class="hover:text-white transition-colors">Career</a>
                 <a href="#contact" class="hover:text-white transition-colors">Contact</a>
             </div>
@@ -167,8 +78,9 @@
                 </div>
                 <div
                     class="absolute -bottom-10 -right-10 w-40 h-40 bg-white p-6 rounded-full shadow-2xl flex items-center justify-center text-center border border-stone-100 reveal">
-                    <p class="text-[10px] font-bold uppercase leading-tight tracking-widest">Based in <br>Nawalgarh,
-                        <br>India</p>
+                    <p class="text-[12px] font-bold uppercase leading-tight tracking-widest">Based in <br>Nawalgarh,
+                        <br>India
+                    </p>
                 </div>
             </div>
         </div>
@@ -196,143 +108,76 @@
         </div>
     </div>
 
-    <!-- Portfolio Section -->
-    <section id="work" class="py-40 px-6">
+    <!-- Work Section -->
+    <section id="work" class="py-32 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
-                <div>
-                    <h2 class="text-6xl md:text-8xl font-black uppercase tracking-tighter reveal">The Works.</h2>
-                    <div class="line-anim reveal" style="width: 100%;"></div>
-                </div>
-                <p class="text-stone-400 text-sm max-w-xs font-medium reveal">
-                    A curated selection of photorealistic visualizations and detailed engineering drawings.
-                </p>
+            <div class="mb-20">
+                <p class="text-accent font-bold text-xs uppercase tracking-[0.4em] mb-4 reveal">Portfolio</p>
+                <h2 class="text-6xl md:text-8xl font-black uppercase tracking-tighter reveal">Explore <br><span
+                        class="serif italic text-stone-300">Categories.</span></h2>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
-                <!-- Project 01: Bedroom 1 -->
-                <div class="reveal group cursor-pointer" onclick="openModal(1)">
-                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
-                        <img id="p1-img" src="assets/FF M BEDROOM.jpg.jpeg" alt="Luxury Master Bedroom">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Interior Category Card -->
+                <div class="reveal group relative h-[600px] overflow-hidden rounded-3xl cursor-pointer"
+                    onclick="window.location.href='interior.html'">
+                    <img src="assets/FF M BEDROOM.jpg.jpeg"
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-stone-900/40 group-hover:bg-stone-900/20 transition-all duration-500">
                     </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-2xl font-black uppercase tracking-tighter">Luxury Master Bedroom</h4>
-                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential Interior</p>
-                        </div>
-                        <span class="text-stone-300 text-3xl italic serif">01</span>
-                    </div>
-                </div>
-
-                <!-- Project 02: Bedroom 2 -->
-                <div class="reveal group cursor-pointer" onclick="openModal(2)">
-                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
-                        <img id="p2-img" src="assets/FF M 2.jpg.jpeg" alt="Modern Bedroom Luxe">
-                    </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-2xl font-black uppercase tracking-tighter">Modern Bedroom Luxe</h4>
-                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential Interior</p>
-                        </div>
-                        <span class="text-stone-300 text-3xl italic serif">02</span>
+                    <div
+                        class="absolute inset-x-0 bottom-0 p-10 translate-y-10 group-hover:translate-y-0 transition-all duration-500">
+                        <h3 class="text-4xl font-black text-white uppercase tracking-tighter mb-4">Interior<br><span
+                                class="serif italic normal-case text-2xl">Design</span></h3>
+                        <p
+                            class="text-white/60 text-xs font-bold uppercase tracking-widest mb-8 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+                            Residential & Commercial Spaces</p>
+                        <span
+                            class="inline-block px-8 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full opacity-0 group-hover:opacity-100 transition-opacity delay-300">View
+                            Projects</span>
                     </div>
                 </div>
 
-                <!-- Project 03: Bedroom 3 (Grand Suite) -->
-                <div class="reveal group cursor-pointer" onclick="openModal(3)">
-                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
-                        <img id="p3-img" src="assets/yy2.jpg.jpeg" alt="Grand Suite Bedroom">
+                <!-- Exterior Category Card -->
+                <div class="reveal group relative h-[600px] overflow-hidden rounded-3xl cursor-pointer"
+                    onclick="window.location.href='exterior.html'">
+                    <img src="assets/exterior residential 1 {a}.jpg.jpeg"
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-stone-900/40 group-hover:bg-stone-900/20 transition-all duration-500">
                     </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-2xl font-black uppercase tracking-tighter">Grand Suite Bedroom</h4>
-                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential Exterior</p>
-                        </div>
-                        <span class="text-stone-300 text-3xl italic serif">03</span>
-                    </div>
-                </div>
-
-                <!-- Project 04: Hall 1 (Modern Master Suite) -->
-                <div class="reveal group cursor-pointer" onclick="openModal(4)">
-                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
-                        <img id="p4-img" src="assets/111333h.jpg.jpeg" alt="Luxury Living Hall">
-                    </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-2xl font-black uppercase tracking-tighter">Luxury Living Hall</h4>
-                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Interior Architecture</p>
-                        </div>
-                        <span class="text-stone-300 text-3xl italic serif">04</span>
+                    <div
+                        class="absolute inset-x-0 bottom-0 p-10 translate-y-10 group-hover:translate-y-0 transition-all duration-500">
+                        <h3 class="text-4xl font-black text-white uppercase tracking-tighter mb-4">Exterior<br><span
+                                class="serif italic normal-case text-2xl">Architectural</span></h3>
+                        <p
+                            class="text-white/60 text-xs font-bold uppercase tracking-widest mb-8 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+                            Facades & Landscape Design</p>
+                        <span
+                            class="inline-block px-8 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full opacity-0 group-hover:opacity-100 transition-opacity delay-300">View
+                            Projects</span>
                     </div>
                 </div>
 
-                <!-- Project 05: Hall 2 (Architectural Hall) -->
-                <div class="reveal group cursor-pointer" onclick="openModal(5)">
-                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
-                        <img id="p5-img" src="assets/11123.jpg.jpeg" alt="Architectural Grand Hall">
+                <!-- Planning Category Card -->
+                <div class="reveal group relative h-[600px] overflow-hidden rounded-3xl cursor-pointer"
+                    onclick="window.location.href='planning.html'">
+                    <img src="assets/11123.jpg.jpeg"
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-stone-900/40 group-hover:bg-stone-900/20 transition-all duration-500">
                     </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-2xl font-black uppercase tracking-tighter">Architectural Grand Hall</h4>
-                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Public Assembly</p>
-                        </div>
-                        <span class="text-stone-300 text-3xl italic serif">05</span>
-                    </div>
-                </div>
-
-                <!-- Project 06: Hall 3 (Guest Lounge) -->
-                <div class="reveal group cursor-pointer" onclick="openModal(6)">
-                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
-                        <img id="p6-img" src="assets/qwertyu.jpg.jpeg" alt="Guest Premium Lounge">
-                    </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-2xl font-black uppercase tracking-tighter">Guest Premium Lounge</h4>
-                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Interior Visualization</p>
-                        </div>
-                        <span class="text-stone-300 text-3xl italic serif">06</span>
-                    </div>
-                </div>
-
-                <!-- Project 07: Kitchen -->
-                <div class="reveal group cursor-pointer" onclick="openModal(7)">
-                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
-                        <img id="p7-img" src="assets/nk 2.jpg.jpeg" alt="Premium Modular Kitchen">
-                    </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-2xl font-black uppercase tracking-tighter">Premium Modular Kitchen</h4>
-                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Technical Design</p>
-                        </div>
-                        <span class="text-stone-300 text-3xl italic serif">07</span>
-                    </div>
-                </div>
-
-                <!-- Project 08: Office/Alt Kitchen -->
-                <div class="reveal group cursor-pointer" onclick="openModal(8)">
-                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
-                        <img id="p8-img" src="assets/nk 1.jpg.jpeg" alt="Contemporary Kitchen Space">
-                    </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-2xl font-black uppercase tracking-tighter">Contemporary Kitchen Space</h4>
-                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Commercial Drafting</p>
-                        </div>
-                        <span class="text-stone-300 text-3xl italic serif">08</span>
-                    </div>
-                </div>
-
-                <!-- Project 09: Extra Bedroom -->
-                <div class="reveal group cursor-pointer" onclick="openModal(9)">
-                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
-                        <img id="p9-img" src="assets/FF M 3.jpg.jpeg" alt="Modern Guest Suite">
-                    </div>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-2xl font-black uppercase tracking-tighter">Modern Guest Suite</h4>
-                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential Detail</p>
-                        </div>
-                        <span class="text-stone-300 text-3xl italic serif">09</span>
+                    <div
+                        class="absolute inset-x-0 bottom-0 p-10 translate-y-10 group-hover:translate-y-0 transition-all duration-500">
+                        <h3 class="text-4xl font-black text-white uppercase tracking-tighter mb-4">Planning<br><span
+                                class="serif italic normal-case text-2xl">Drafting & Detail</span></h3>
+                        <p
+                            class="text-white/60 text-xs font-bold uppercase tracking-widest mb-8 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+                            Technical Drawings & Municipal Submission</p>
+                        <span
+                            class="inline-block px-8 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full opacity-0 group-hover:opacity-100 transition-opacity delay-300">View
+                            Projects</span>
                     </div>
                 </div>
             </div>
@@ -432,103 +277,21 @@
         </div>
     </footer>
 
-    <!-- Project Modal -->
-    <div id="project-modal" class="fixed inset-0 z-[200] hidden opacity-0 transition-opacity duration-500 overflow-y-auto bg-stone-50/98 backdrop-blur-xl">
-        <div class="max-w-7xl mx-auto px-6 py-32 relative">
-            <button onclick="closeModal()" class="fixed top-12 right-12 z-[210] w-12 h-12 rounded-full border border-stone-200 flex items-center justify-center hover:bg-stone-900 hover:text-white transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
-            </button>
-            
-            <div class="grid lg:grid-cols-12 gap-20 items-start">
-                <div class="lg:col-span-12 mb-10">
-                   <p id="modal-category" class="text-accent font-bold text-xs uppercase tracking-[0.4em] mb-4">Residential Architecture</p>
-                   <h2 id="modal-title" class="text-6xl md:text-8xl font-black uppercase tracking-tighter">Project Title</h2>
-                </div>
-                
-                <div class="lg:col-span-8">
-                    <div class="img-container aspect-video rounded-3xl shadow-2xl border border-stone-200 overflow-hidden mb-10">
-                        <img id="modal-img" src="" alt="Project Detail" class="w-full h-full object-cover">
-                    </div>
-                </div>
-                
-                <div class="lg:col-span-4 space-y-12">
-                    <div class="p-10 bg-white rounded-3xl border border-stone-100 shadow-sm">
-                        <h4 class="text-[10px] font-black uppercase tracking-widest text-stone-300 mb-6">Technical Specifications</h4>
-                        <div class="space-y-6">
-                            <div class="flex justify-between border-b border-stone-50 pb-4">
-                                <span class="text-[10px] font-bold uppercase text-stone-400">Year</span>
-                                <span id="modal-year" class="text-sm font-black tabular-nums">2024</span>
-                            </div>
-                            <div class="flex justify-between border-b border-stone-50 pb-4">
-                                <span class="text-[10px] font-bold uppercase text-stone-400">Client</span>
-                                <span id="modal-client" class="text-sm font-black uppercase">Private</span>
-                            </div>
-                            <div class="flex justify-between border-b border-stone-50 pb-4">
-                                <span class="text-[10px] font-bold uppercase text-stone-400">Scale</span>
-                                <span id="modal-scale" class="text-sm font-black uppercase tabular-nums">8,500 SQ FT</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-[10px] font-bold uppercase text-stone-400">Status</span>
-                                <span id="modal-status" class="text-sm font-black uppercase text-emerald-500 italic">Completed</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 class="text-[10px] font-black uppercase tracking-widest text-stone-300 mb-6">Description</h4>
-                        <p id="modal-desc" class="text-stone-500 font-medium leading-relaxed italic">Detailed architectural visualization focusing on light, texture, and spatial harmony.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="text-[10px] font-black uppercase tracking-widest text-stone-300 mb-6">Software Stack</h4>
-                        <div id="modal-tech" class="flex flex-wrap gap-2">
-                           <!-- Tech pills injected here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="fixed bottom-12 left-1/2 -translate-x-1/2 flex gap-4">
-            <button onclick="prevProject()" class="bg-white px-8 py-3 rounded-2xl border border-stone-200 text-[10px] font-black uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all shadow-xl">Prev</button>
-            <button onclick="nextProject()" class="bg-white px-8 py-3 rounded-2xl border border-stone-200 text-[10px] font-black uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all shadow-xl">Next</button>
-        </div>
-    </div>
-
-    <!-- Hidden Input for Image Uploading -->
-    <input type="file" id="imageInput" class="hidden" accept="image/*">
-
     <script>
-        // --- DATA ---
-        const projects = [
-            { id: 'hero-img', title: "Talim Khan", category: "Architectural Designer", image: "assets/profile.png", year: "2022-Now", client: "Public", scale: "Lead Designer", status: "Active", desc: "Specialized in high-precision 2D drafting and cinematic 3D visualization. Over 550+ projects delivered with technical excellence.", tech: ["AutoCAD", "Lumion", "3ds Max", "Revit", "V-Ray"] },
-            { id: 'p1', title: "Luxury Master Bedroom", category: "Residential Interior", image: "assets/FF M BEDROOM.jpg.jpeg", year: "2023", client: "Private", scale: "450 SQ FT", status: "Delivered", desc: "Intimate master suite visualization focusing on cinematic material interplay and high-end lighting dynamics.", tech: ["3ds Max", "V-Ray", "Photoshop"] },
-            { id: 'p2', title: "Modern Bedroom Luxe", category: "Residential Interior", image: "assets/FF M 2.jpg.jpeg", year: "2023", client: "Private", scale: "420 SQ FT", status: "Completed", desc: "Contemporary interior detailing featuring integrated smart lighting and bespoke cabinetry systems.", tech: ["SketchUp", "V-Ray", "AutoCAD"] },
-            { id: 'p3', title: "Grand Suite Bedroom", category: "Residential Interior", image: "assets/yy2.jpg.jpeg", year: "2024", client: "Private", scale: "8,500 SQ FT", status: "Completed", desc: "A massive luxury villa project featuring modernist facade engineering and complex volumetric spatial planning.", tech: ["AutoCAD", "Lumion", "3ds Max"] },
-            { id: 'p4', title: "Luxury Living Hall", category: "Interior Architecture", image: "assets/111333h.jpg.jpeg", year: "2023", client: "Private", scale: "750 SQ FT", status: "Completed", desc: "High-spec living hall focusing on atmospheric lighting and premium spatial flow.", tech: ["AutoCAD", "V-Ray", "Photoshop"] },
-            { id: 'p5', title: "Architectural Grand Hall", category: "Public Assembly", image: "assets/11123.jpg.jpeg", year: "2024", client: "Municipal", scale: "15,000 SQ FT", status: "Conceptual", desc: "Grand assembly hall focusing on life safety standards, massive circulation volumes, and grand acoustic engineering.", tech: ["AutoCAD", "BIM", "V-Ray"] },
-            { id: 'p6', title: "Guest Premium Lounge", category: "Interior Visualization", image: "assets/qwertyu.jpg.jpeg", year: "2023", client: "Private", scale: "550 SQ FT", status: "Completed", desc: "Cinematic media room design featuring integrated acoustic treatment and concealed storage.", tech: ["3ds Max", "Lumion", "V-Ray"] },
-            { id: 'p7', title: "Premium Modular Kitchen", category: "Technical Design", image: "assets/nk 2.jpg.jpeg", year: "2024", client: "Commercial", scale: "Technical Work", status: "Approved", desc: "Advanced modular kitchen engineering focusing on ergonomic workflows and integrated appliance systems.", tech: ["AutoCAD", "Revit", "Photoshop"] },
-            { id: 'p8', title: "Contemporary Kitchen Space", category: "Commercial Drafting", image: "assets/nk 1.jpg.jpeg", year: "2024", client: "Corporate", scale: "12,000 SQ FT", status: "Final Stage", desc: "A high-end glass-facade plaza focusing on energy-efficient envelope design and open collaborative workspaces.", tech: ["Revit", "AutoCAD", "Lumion"] },
-            { id: 'p9', title: "Modern Guest Suite", category: "Residential Detail", image: "assets/FF M 3.jpg.jpeg", year: "2024", client: "Private", scale: "1,200 SQ FT", status: "Built", desc: "Self-sustaining guest building featuring high-end architectural finishes and independent utility systems.", tech: ["Revit", "3ds Max", "V-Ray"] }
-        ];
-
-        let currentProjectIndex = 0;
-
         // --- ANIMATIONS (GSAP) ---
         gsap.registerPlugin(ScrollTrigger);
 
         const tl = gsap.timeline();
         tl.to("#loader-bar", { width: "100%", duration: 1.5, ease: "power4.inOut" })
-          .to("#loader", { y: "-100%", duration: 0.8, ease: "power4.inOut" });
+            .to("#loader", { y: "-100%", duration: 0.8, ease: "power4.inOut" });
 
         gsap.utils.toArray(".reveal").forEach((elem) => {
-            gsap.fromTo(elem, 
+            gsap.fromTo(elem,
                 { opacity: 0, y: 30 },
-                { 
-                    opacity: 1, 
-                    y: 0, 
-                    duration: 1.2, 
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: elem,
@@ -555,81 +318,6 @@
                 ease: "power2.out"
             });
         });
-
-        // --- MODAL LOGIC ---
-        function openModal(index) {
-            currentProjectIndex = index;
-            const p = projects[index];
-            
-            document.getElementById('modal-title').innerText = p.title;
-            document.getElementById('modal-category').innerText = p.category;
-            document.getElementById('modal-img').src = p.image;
-            document.getElementById('modal-year').innerText = p.year;
-            document.getElementById('modal-client').innerText = p.client;
-            document.getElementById('modal-scale').innerText = p.scale;
-            document.getElementById('modal-status').innerText = p.status;
-            document.getElementById('modal-desc').innerText = p.desc;
-            
-            const techContainer = document.getElementById('modal-tech');
-            techContainer.innerHTML = '';
-            p.tech.forEach(t => {
-                const span = document.createElement('span');
-                span.className = 'px-3 py-1 rounded-full border border-stone-200 text-[9px] font-black uppercase tracking-widest';
-                span.innerText = t;
-                techContainer.appendChild(span);
-            });
-
-            const modal = document.getElementById('project-modal');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.add('opacity-100');
-            }, 10);
-            document.body.style.overflow = 'hidden';
-            
-            gsap.from("#project-modal .img-container", { scale: 0.9, opacity: 0, duration: 1, ease: "power4.out" });
-            gsap.from("#project-modal h2, #project-modal p, #project-modal .p-10", { y: 40, opacity: 0, stagger: 0.1, duration: 1, ease: "power4.out" });
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('project-modal');
-            modal.classList.remove('opacity-100');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 500);
-            document.body.style.overflow = '';
-        }
-
-        function nextProject() { currentProjectIndex = (currentProjectIndex + 1) % projects.length; openModal(currentProjectIndex); }
-        function prevProject() { currentProjectIndex = (currentProjectIndex - 1 + projects.length) % projects.length; openModal(currentProjectIndex); }
-
-        // --- IMAGE HANDLING LOGIC ---
-        let currentImgTargetId = null;
-        function triggerUpload(id) {
-            currentImgTargetId = id;
-            document.getElementById('imageInput').click();
-        }
-
-        document.getElementById('imageInput').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file && currentImgTargetId) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    const imgElem = document.getElementById(currentImgTargetId);
-                    imgElem.src = event.target.result;
-                    imgElem.classList.remove('hidden');
-                    if (currentImgTargetId === 'hero-img') {
-                        const placeholder = document.getElementById('hero-placeholder');
-                        if(placeholder) placeholder.classList.add('hidden');
-                    }
-                    const placeholder = imgElem.parentElement.querySelector('div');
-                    if (placeholder) placeholder.classList.add('hidden');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Close on Esc
-        window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
     </script>
 </body>
 

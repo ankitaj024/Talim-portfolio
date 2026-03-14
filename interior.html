@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interior Design | Talim Portfoilo</title>
+
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Inter:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="antialiased">
+
+    <div class="custom-cursor hidden md:block" id="cursor"></div>
+
+    <!-- Preloader -->
+    <div id="loader" class="fixed inset-0 z-[100] bg-stone-900 flex items-center justify-center">
+        <div class="text-center">
+            <h2 class="text-white serif italic text-2xl mb-2 animate-pulse">Talim</h2>
+            <div class="w-48 h-[1px] bg-white/10 relative overflow-hidden">
+                <div id="loader-bar" class="absolute inset-0 bg-stone-400 w-0"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-8 flex justify-between items-center mix-blend-difference">
+        <div class="text-white">
+            <p class="font-black text-xl tracking-tighter uppercase">Talim.</p>
+        </div>
+        <div class="flex gap-10 items-center">
+            <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-widest text-white/60">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <a href="index.html#work" class="hover:text-white transition-colors">Projects</a>
+                <a href="index.html#about" class="hover:text-white transition-colors">Career</a>
+                <a href="index.html#contact" class="hover:text-white transition-colors">Contact</a>
+            </div>
+            <button
+                class="bg-white text-black px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:invert transition-all">
+                Project Request
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="pt-40 pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter reveal mb-10">
+                Interior <br><span class="serif italic text-stone-300">Spaces.</span>
+            </h1>
+            <p class="text-stone-500 max-w-xl text-lg reveal">
+                Functional elegance meets aesthetic brilliance. Explore a collection of bespoke interior visualizations
+                from master bedrooms to grand halls.
+            </p>
+        </div>
+    </header>
+
+    <!-- Portfolio Section -->
+    <section class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
+                <!-- Project 01: Bedroom -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(1)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/FF M BEDROOM.jpg.jpeg" alt="Luxury Master Bedroom">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Luxury Master Bedroom</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential
+                                Interior</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">01</span>
+                    </div>
+                </div>
+
+                <!-- Project 02: Bedroom -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(2)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/FF M 2.jpg.jpeg" alt="Modern Bedroom Luxe">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Modern Bedroom Luxe</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential
+                                Interior</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">02</span>
+                    </div>
+                </div>
+
+                <!-- Project 04: Hall -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(4)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/111333h.jpg.jpeg" alt="Luxury Living Hall">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Luxury Living Hall</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Interior
+                                Architecture</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">03</span>
+                    </div>
+                </div>
+
+                <!-- Project 06: Hall -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(6)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/qwertyu.jpg.jpeg" alt="Guest Premium Lounge">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Guest Premium Lounge</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Interior
+                                Visualization</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">04</span>
+                    </div>
+                </div>
+
+                <!-- Project 07: Kitchen -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(7)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/nk 2.jpg.jpeg" alt="Premium Modular Kitchen">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Premium Modular Kitchen</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Technical
+                                Design</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">05</span>
+                    </div>
+                </div>
+
+                <!-- Project 09: Bedroom -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(9)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/FF M 3.jpg.jpeg" alt="Modern Guest Suite">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Modern Guest Suite</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential
+                                Detail</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">06</span>
+                    </div>
+                </div>
+
+                <!-- Project 10: Master Suite -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(10)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/interior bed room 1(a).jpg.jpeg" alt="Master Suite Luxe">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Master Suite Luxe</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Premium
+                                Interior</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">07</span>
+                    </div>
+                </div>
+
+                <!-- Project 11: Bedroom 2 -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(11)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/interior  BED ROOM 2{a}.jpg.jpeg" alt="Bespoke Bedroom">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Bespoke Bedroom</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Custom Design
+                            </p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">08</span>
+                    </div>
+                </div>
+
+                <!-- Project 13: Grand Hall -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(13)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/interior  hall {a}.jpg.jpeg" alt="Cinematic Hall">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Cinematic Hall</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Architecture
+                            </p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">09</span>
+                    </div>
+                </div>
+
+                <!-- Project 14: Kitchen -->
+                <div class="reveal group cursor-pointer" onclick="goToProject(14)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img src="assets/interior  kitchen {a}.jpg.jpeg" alt="Culinary Studio">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Culinary Studio</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Technical
+                                Design</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">10</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 border-t border-stone-200 mt-20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="text-center md:text-left">
+                <p class="font-black text-2xl uppercase tracking-tighter">TALIM.</p>
+                <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mt-1">Architecture &
+                    Engineering</p>
+            </div>
+            <div class="flex gap-10 text-[10px] font-bold uppercase tracking-widest text-stone-400">
+                <p>© 2026 Rajasthan, India</p>
+                <a href="index.html#work" class="hover:text-black">Portfolio</a>
+                <a href="index.html#contact" class="hover:text-black">Email Me</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Preloader
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to("#loader-bar", { width: "100%", duration: 1.5, ease: "power4.inOut" })
+                .to("#loader", { y: "-100%", duration: 0.8, ease: "power4.inOut" });
+        });
+
+        // Animations
+        gsap.utils.toArray(".reveal").forEach((elem) => {
+            gsap.fromTo(elem,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 90%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        // Cursor
+        const cursor = document.getElementById("cursor");
+        document.addEventListener("mousemove", (e) => {
+            gsap.to(cursor, {
+                x: e.clientX - 10,
+                y: e.clientY - 10,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        function goToProject(id) {
+            window.location.href = `project-detail.html?id=${id}`;
+        }
+    </script>
+</body>
+
+</html>
