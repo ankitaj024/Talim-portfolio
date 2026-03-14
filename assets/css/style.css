@@ -9,6 +9,33 @@ body {
     background-color: var(--bg);
     color: var(--dark);
     overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Glassmorphism for Nav */
+.glass {
+    background: rgba(255, 255, 255, 0.01);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d6d3d1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a29e;
 }
 
 h1,
@@ -83,6 +110,28 @@ h3,
     }
 
     .hero-title {
-        font-size: 4rem;
+        font-size: 3.5rem;
     }
+}
+
+/* Smooth Scroll Lenis Fix */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
 }

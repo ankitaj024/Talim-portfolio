@@ -14,6 +14,8 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Inter:wght@300;400;600;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
 </head>
 
 <body class="antialiased">
@@ -31,7 +33,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 px-6 py-8 flex justify-between items-center mix-blend-difference">
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center glass transition-all duration-500">
         <div class="text-white">
             <p class="font-black text-xl tracking-tighter uppercase">Talim.</p>
         </div>
@@ -56,8 +58,9 @@
                 <p class="reveal text-accent font-bold text-xs uppercase tracking-[0.4em] mb-6">Architectural Engineer &
                     Designer</p>
                 <h1
-                    class="hero-title reveal text-7xl md:text-[10rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
-                    Draft <br>The <span class="serif italic text-stone-300">Future.</span>
+                    class="hero-title reveal text-7xl md:text-[10rem] font-black leading-[0.8] tracking-tighter uppercase mb-10 overflow-hidden">
+                    <span class="block">Draft</span>
+                    <span class="block">The <span class="serif italic text-stone-300">Future.</span></span>
                 </h1>
                 <div class="reveal flex gap-8 items-center border-t border-stone-200 pt-10">
                     <p class="text-sm text-stone-500 max-w-xs leading-relaxed">
@@ -224,19 +227,19 @@
                     <h3 class="text-sm font-bold uppercase tracking-[0.5em] text-stone-500 mb-12">Expertise</h3>
                     <div class="space-y-12">
                         <div
-                            class="reveal p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-white/20 transition-all">
+                            class="reveal expertise-card p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-white/20 transition-all duration-700">
                             <h5 class="text-xl font-bold uppercase tracking-tight mb-2">2D Drafting & Detailing</h5>
                             <p class="text-stone-500 text-sm">Working drawings, floor plans, and municipal submission
                                 sheets with millimeter precision.</p>
                         </div>
                         <div
-                            class="reveal p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-white/20 transition-all">
+                            class="reveal expertise-card p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-white/20 transition-all duration-700">
                             <h5 class="text-xl font-bold uppercase tracking-tight mb-2">3D Photorealism</h5>
                             <p class="text-stone-500 text-sm">Creating atmospheric exteriors and interiors using Lumion
                                 and V-Ray Global Illumination.</p>
                         </div>
                         <div
-                            class="reveal p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-white/20 transition-all">
+                            class="reveal expertise-card p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-white/20 transition-all duration-700">
                             <h5 class="text-xl font-bold uppercase tracking-tight mb-2">Project Coordination</h5>
                             <p class="text-stone-500 text-sm">Managing the workflow from client brief to final delivery
                                 and site coordination.</p>
@@ -278,21 +281,53 @@
     </footer>
 
     <script>
+        // --- SMOOTH SCROLL (LENIS) ---
+        const lenis = new Lenis()
+        lenis.on('scroll', ScrollTrigger.update)
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000)
+        })
+        gsap.ticker.lagSmoothing(0)
+
         // --- ANIMATIONS (GSAP) ---
         gsap.registerPlugin(ScrollTrigger);
 
-        const tl = gsap.timeline();
-        tl.to("#loader-bar", { width: "100%", duration: 1.5, ease: "power4.inOut" })
-            .to("#loader", { y: "-100%", duration: 0.8, ease: "power4.inOut" });
+        // Loader
+        const loaderTl = gsap.timeline();
+        loaderTl.to("#loader-bar", { width: "100%", duration: 1.5, ease: "power4.inOut" })
+            .to("#loader", { y: "-100%", duration: 0.8, ease: "power4.inOut" })
+            .from(".hero-title span", { opacity: 0, scale: 1.2, duration: 1, ease: "power4.out" }, "-=0.2");
 
+        // Hero Parallax / Scale
+        gsap.to("#hero-img", {
+            scale: 1.2,
+            scrollTrigger: {
+                trigger: ".hero-title",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Sticky / Pinning Expertise (Simple version for clean UI)
+        gsap.utils.toArray(".expertise-card").forEach((card, i) => {
+            ScrollTrigger.create({
+                trigger: card,
+                start: "top 80%",
+                toggleClass: "active",
+                onEnter: () => gsap.to(card, { backgroundColor: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.2)", duration: 0.5 })
+            });
+        });
+
+        // Reveal Animations
         gsap.utils.toArray(".reveal").forEach((elem) => {
             gsap.fromTo(elem,
-                { opacity: 0, y: 30 },
+                { opacity: 0, y: 50 },
                 {
                     opacity: 1,
                     y: 0,
                     duration: 1.2,
-                    ease: "power3.out",
+                    ease: "expo.out",
                     scrollTrigger: {
                         trigger: elem,
                         start: "top 90%",
@@ -300,6 +335,18 @@
                     }
                 }
             );
+        });
+
+        // Home Page Image Parallax (For category cards)
+        gsap.utils.toArray(".group img").forEach(img => {
+            gsap.to(img, {
+                yPercent: 10,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: img,
+                    scrub: true
+                }
+            });
         });
 
         gsap.to(".animate-marquee", {
