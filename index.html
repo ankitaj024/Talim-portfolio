@@ -4,653 +4,632 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talim | Architectural Portfolio</title>
-    <!-- Tailwind CSS -->
+    <title>Talim | Architectural Engineering & Visualization</title>
+
+    <!-- Scripts & Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Inter:wght@300;400;600;800&display=swap"
         rel="stylesheet">
+
     <style>
         :root {
-            --primary: #1c1917;
-            --secondary: #a8a29e;
-            --accent: #10b981;
             --bg: #fafaf9;
-            --card-bg: #ffffff;
-            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --accent: #c5a367;
+            --dark: #1c1917;
         }
 
         body {
-            font-family: var(--font-main);
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg);
-            color: var(--primary);
-            margin: 0;
-            padding: 0;
+            color: var(--dark);
             overflow-x: hidden;
         }
 
-        body.modal-open {
-            overflow: hidden;
+        h1,
+        h2,
+        h3,
+        .serif {
+            font-family: 'Playfair Display', serif;
         }
 
-        #main-container {
-            min-height: 100vh;
-            display: block !important;
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        .glass-header {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
         }
 
-        .img-card {
-            background-color: #f5f5f4;
-            border-radius: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+        .img-container {
             position: relative;
+            background: #e7e5e4;
+            overflow: hidden;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.03);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
         }
 
-        .img-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-        }
-
-        .img-card img {
+        .img-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .img-card:hover img {
-            transform: scale(1.1);
+        .img-container:hover img {
+            transform: scale(1.05);
         }
 
-        .img-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
+        .line-anim {
+            width: 0%;
+            height: 1px;
+            background: var(--accent);
+            margin-top: 10px;
         }
 
-        .img-card:hover .img-overlay {
-            opacity: 1;
-        }
-
-        @keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .animate-marquee {
-            display: flex;
-            animation: marquee 30s linear infinite;
+        .marquee-container {
+            background: var(--dark);
+            padding: 2rem 0;
             white-space: nowrap;
-        }
-
-        .reveal-text {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            animation: reveal 1s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-
-        @keyframes reveal {
-            0% {
-                transform: translateY(100%);
-            }
-
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-        .mask-image {
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-        }
-
-        /* Modal Styles */
-        #project-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            background: rgba(250, 250, 249, 0.98);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        #project-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .modal-close {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            z-index: 1100;
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .modal-close:hover {
-            transform: rotate(90deg) scale(1.1);
-            background: #000;
-            color: #fff;
-        }
-
-        .modal-body {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 8rem 2rem 4rem;
-            width: 100%;
-        }
-
-        .modal-grid {
-            display: grid;
-            grid-template-cols: 1fr;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        @media (min-width: 1024px) {
-            .modal-grid {
-                grid-template-cols: 1.5fr 1fr;
-            }
-        }
-
-        .modal-image-container {
-            position: relative;
-        }
-
-        @media (min-width: 1024px) {
-            .modal-image-container {
-                position: sticky;
-                top: 8rem;
-            }
-        }
-
-        .modal-info {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-        }
-
-        .modal-image-wrapper {
-            border-radius: 2rem;
             overflow: hidden;
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.15);
-            background: #f1f1f1;
+            display: flex;
         }
 
-        .modal-image-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .tech-pill {
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            padding: 0.5rem 1rem;
-            border-radius: 0.75rem;
-            font-size: 0.7rem;
-            font-weight: 700;
+        .marquee-text {
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.05);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            padding-right: 50px;
         }
 
-        .nav-button {
-            position: fixed;
-            bottom: 2rem;
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 1.25rem 2.5rem;
-            border-radius: 1.5rem;
-            font-weight: 800;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
-            z-index: 1100;
-        }
+        /* Responsive Mobile Fixes */
+        @media (max-width: 768px) {
+            .marquee-text {
+                font-size: 3rem;
+            }
 
-        .nav-button:hover {
-            background: #000;
-            color: #fff;
-            transform: translateY(-5px);
-        }
-
-        .prev-btn {
-            left: 2rem;
-        }
-
-        .next-btn {
-            right: 2rem;
+            .hero-title {
+                font-size: 4rem;
+            }
         }
     </style>
 </head>
 
 <body class="antialiased">
 
-    <div id="main-container">
-        <!-- Nav -->
-        <nav id="navbar" class="fixed top-0 w-full z-50 py-5 transition-all duration-300">
-            <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-                <div class="flex flex-col">
-                    <span class="font-extrabold text-xl tracking-tighter uppercase">TALIM</span>
-                    <span class="text-[9px] font-bold text-stone-400 tracking-[0.2em] uppercase">Architecture</span>
+    <div class="custom-cursor hidden md:block" id="cursor"></div>
+
+    <!-- Preloader -->
+    <div id="loader" class="fixed inset-0 z-[100] bg-stone-900 flex items-center justify-center">
+        <div class="text-center">
+            <h2 class="text-white serif italic text-2xl mb-2 animate-pulse">Talim</h2>
+            <div class="w-48 h-[1px] bg-white/10 relative overflow-hidden">
+                <div id="loader-bar" class="absolute inset-0 bg-stone-400 w-0"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-8 flex justify-between items-center mix-blend-difference">
+        <div class="text-white">
+            <p class="font-black text-xl tracking-tighter uppercase">Talim.</p>
+        </div>
+        <div class="flex gap-10 items-center">
+            <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-widest text-white/60">
+                <a href="#work" class="hover:text-white transition-colors">Portfolio</a>
+                <a href="#about" class="hover:text-white transition-colors">Career</a>
+                <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+            </div>
+            <button
+                class="bg-white text-black px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:invert transition-all">
+                Project Request
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen relative flex items-center px-6 pt-20">
+        <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7">
+                <p class="reveal text-accent font-bold text-xs uppercase tracking-[0.4em] mb-6">Architectural Engineer &
+                    Designer</p>
+                <h1
+                    class="hero-title reveal text-7xl md:text-[10rem] font-black leading-[0.8] tracking-tighter uppercase mb-10">
+                    Draft <br>The <span class="serif italic text-stone-300">Future.</span>
+                </h1>
+                <div class="reveal flex gap-8 items-center border-t border-stone-200 pt-10">
+                    <p class="text-sm text-stone-500 max-w-xs leading-relaxed">
+                        Precision engineering meets aesthetic visualization. Over 550+ projects delivered with YK
+                        Engineering & Services.
+                    </p>
+                    <div class="h-12 w-[1px] bg-stone-200"></div>
+                    <div>
+                        <p class="text-2xl font-black">550+</p>
+                        <p class="text-[9px] font-bold uppercase tracking-widest text-stone-400">Project Count</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 relative mt-20 lg:mt-0">
+                <div class="img-container aspect-[3/4] shadow-2xl reveal group" onclick="openModal(0)">
+                    <img id="hero-img" src="assets/profile.png" alt="Talim Profile">
                 </div>
                 <div
-                    class="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest text-stone-400">
-                    <a href="#work" class="hover:text-black">Portfolio</a>
-                    <a href="#about" class="hover:text-black">Experience</a>
-                    <a href="mailto:talimkhan8002@gmail.com"
-                        class="text-black bg-white px-5 py-2 rounded-full border border-stone-200">Contact</a>
+                    class="absolute -bottom-10 -right-10 w-40 h-40 bg-white p-6 rounded-full shadow-2xl flex items-center justify-center text-center border border-stone-100 reveal">
+                    <p class="text-[10px] font-bold uppercase leading-tight tracking-widest">Based in <br>Nawalgarh,
+                        <br>India</p>
                 </div>
-                <button class="md:hidden p-2 text-stone-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M4 6h16M4 12h16m-7 6h7" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" />
-                    </svg>
-                </button>
-            </div>
-        </nav>
-
-        <!-- Hero -->
-        <section id="hero" class="pt-32 pb-20 px-6">
-            <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <span
-                        class="inline-block px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-full mb-6 tracking-wider uppercase">Open
-                        for work</span>
-                    <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-[0.9] mb-8">
-                        DRAFTING <br><span class="text-stone-300">&</span> DESIGN.
-                    </h1>
-                    <p class="text-stone-500 text-lg mb-10 max-w-sm font-medium">
-                        Architectural Engineer with 3.5+ years of experience in 3D visualization and high-precision
-                        drafting.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="mailto:talimkhan8002@gmail.com"
-                            class="bg-black text-white px-8 py-4 rounded-2xl font-bold text-center hover:scale-105 transition-transform active:scale-95 shadow-lg shadow-black/10">Hire
-                            Me</a>
-                        <div
-                            class="px-8 py-4 bg-white border border-stone-200 rounded-2xl font-bold text-center text-sm">
-                            +91 83021 08002
-                        </div>
-                    </div>
-                </div>
-                <div class="relative">
-                    <div class="aspect-[4/5] img-card shadow-2xl" onclick="openModal(0)">
-                        <img id="profile-img" src="assets/profile.png" alt="Profile">
-                        <div id="profile-hint" class="text-center p-8 opacity-40 hidden">
-                            <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1" />
-                            </svg>
-                            <p class="text-[10px] font-bold uppercase tracking-widest">Tap to add profile photo</p>
-                        </div>
-                    </div>
-                    <div
-                        class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl hidden md:block border border-stone-100">
-                        <p class="text-4xl font-extrabold mb-1">550+</p>
-                        <p class="text-[9px] font-bold text-stone-400 uppercase tracking-widest">Projects Completed</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tech Marquee -->
-        <div class="bg-stone-900 py-8 overflow-hidden">
-            <div class="animate-marquee gap-12 text-white/10 text-4xl font-black uppercase italic">
-                <span>AutoCAD — Lumion — 3ds Max — V-Ray — Photoshop — SketchUp — Revit —</span>
-                <span>AutoCAD — Lumion — 3ds Max — V-Ray — Photoshop — SketchUp — Revit —</span>
             </div>
         </div>
+    </section>
 
-        <!-- Experience -->
-        <section id="about" class="py-24 px-6 bg-white">
-            <div class="max-w-6xl mx-auto">
-                <div class="flex flex-col md:flex-row justify-between mb-16 gap-4">
-                    <h2 class="text-4xl font-extrabold tracking-tight uppercase">Experience.</h2>
-                    <div class="text-stone-400 font-bold text-sm tracking-widest">YK ENGINEERING & SERVICES</div>
-                </div>
-
-                <div class="grid md:grid-cols-12 gap-12">
-                    <div class="md:col-span-4 space-y-8">
-                        <div class="bg-stone-50 p-8 rounded-3xl">
-                            <h4 class="font-bold mb-4 uppercase text-xs tracking-widest">Skills</h4>
-                            <div class="flex flex-wrap gap-2">
-                                <span
-                                    class="bg-white px-3 py-1 rounded-lg text-[10px] font-bold border border-stone-200">Drafting</span>
-                                <span
-                                    class="bg-white px-3 py-1 rounded-lg text-[10px] font-bold border border-stone-200">3D
-                                    Renders</span>
-                                <span
-                                    class="bg-white px-3 py-1 rounded-lg text-[10px] font-bold border border-stone-200">Interiors</span>
-                                <span
-                                    class="bg-white px-3 py-1 rounded-lg text-[10px] font-bold border border-stone-200">Revit</span>
-                            </div>
-                        </div>
-                        <div class="bg-stone-50 p-8 rounded-3xl">
-                            <h4 class="font-bold mb-4 uppercase text-xs tracking-widest">Education</h4>
-                            <p class="font-bold text-sm mb-1 uppercase">Master Diploma</p>
-                            <p class="text-stone-400 text-xs">Architecture Design, Sikar</p>
-                        </div>
-                    </div>
-                    <div class="md:col-span-8 border-l border-stone-100 pl-8">
-                        <div class="mb-10">
-                            <h3 class="text-2xl font-black mb-2">Architectural Designer</h3>
-                            <p class="text-emerald-600 font-bold text-[10px] uppercase mb-6 tracking-widest">May 2022 —
-                                Present</p>
-                            <ul class="space-y-6 text-stone-500 font-medium">
-                                <li class="flex gap-4">
-                                    <span class="text-black font-bold">/</span>
-                                    Created over 550 residential and commercial projects.
-                                </li>
-                                <li class="flex gap-4">
-                                    <span class="text-black font-bold">/</span>
-                                    Expert in producing 2D AutoCAD and photorealistic 3D renders.
-                                </li>
-                                <li class="flex gap-4">
-                                    <span class="text-black font-bold">/</span>
-                                    Collaborating with engineers for technical structural accuracy.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Portfolio -->
-        <section id="work" class="py-32 px-6">
-            <div class="max-w-7xl mx-auto">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
-                    <div class="max-w-2xl">
-                        <h2 class="text-5xl font-black tracking-tighter uppercase mb-6 reveal-text">Selected Works.</h2>
-                        <p class="text-stone-400 text-lg font-medium leading-relaxed">
-                            A curated selection of high-precision architectural drafting, 3D visualization, and interior
-                            design projects across residential and commercial sectors.
-                        </p>
-                    </div>
-                    <div class="text-right hidden md:block">
-                        <span class="text-emerald-600 font-bold text-xs uppercase tracking-[0.3em]">Excellence in
-                            Design</span>
-                        <div class="h-[1px] w-24 bg-stone-200 mt-4 ml-auto"></div>
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <!-- Group 1: Primary Residential -->
-                    <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(1)">
-                            <img src="assets/yy2.jpg.jpeg" alt="Master Suite">
-                            <div class="img-overlay">
-                                <span
-                                    class="bg-white/10 backdrop-blur-md text-white text-[9px] font-bold py-1 px-3 rounded-full w-fit mb-3 uppercase tracking-widest border border-white/20">Project
-                                    01</span>
-                                <h4 class="text-white text-2xl font-black uppercase tracking-tighter">Grand Suite Main
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(2)">
-                            <img src="assets/FF M BEDROOM.jpg.jpeg" alt="Bedroom A">
-                            <div class="img-overlay">
-                                <span
-                                    class="bg-white/10 backdrop-blur-md text-white text-[9px] font-bold py-1 px-3 rounded-full w-fit mb-3 uppercase tracking-widest border border-white/20">Project
-                                    01</span>
-                                <h4 class="text-white text-2xl font-black uppercase tracking-tighter">Luxury Bedroom A
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(3)">
-                            <img src="assets/FF M 2.jpg.jpeg" alt="Bedroom B">
-                            <div class="img-overlay">
-                                <span
-                                    class="bg-white/10 backdrop-blur-md text-white text-[9px] font-bold py-1 px-3 rounded-full w-fit mb-3 uppercase tracking-widest border border-white/20">Project
-                                    01</span>
-                                <h4 class="text-white text-2xl font-black uppercase tracking-tighter">Luxury Bedroom B
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Group 2: Functional Spaces -->
-                    <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(4)">
-                            <img src="assets/FF M 3.jpg.jpeg" alt="Modular Kitchen">
-                            <div class="img-overlay">
-                                <span
-                                    class="bg-white/10 backdrop-blur-md text-white text-[9px] font-bold py-1 px-3 rounded-full w-fit mb-3 uppercase tracking-widest border border-white/20">Project
-                                    02</span>
-                                <h4 class="text-white text-2xl font-black uppercase tracking-tighter">Modular Kitchen
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(5)">
-                            <img src="assets/nk 2.jpg.jpeg" alt="TV Lounge">
-                            <div class="img-overlay">
-                                <span
-                                    class="bg-white/10 backdrop-blur-md text-white text-[9px] font-bold py-1 px-3 rounded-full w-fit mb-3 uppercase tracking-widest border border-white/20">Project
-                                    02</span>
-                                <h4 class="text-white text-2xl font-black uppercase tracking-tighter">Premium TV Lounge
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(6)">
-                            <img src="assets/nk 1.jpg.jpeg" alt="Commercial Office">
-                            <div class="img-overlay">
-                                <span
-                                    class="bg-white/10 backdrop-blur-md text-white text-[9px] font-bold py-1 px-3 rounded-full w-fit mb-3 uppercase tracking-widest border border-white/20">Commercial</span>
-                                <h4 class="text-white text-2xl font-black uppercase tracking-tighter">Corporate Office
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Group 3: Residential Continued -->
-                    <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(7)">
-                            <img src="assets/qwertyu.jpg.jpeg" alt="Guest Room">
-                            <div class="img-overlay">
-                                <span
-                                    class="bg-white/10 backdrop-blur-md text-white text-[9px] font-bold py-1 px-3 rounded-full w-fit mb-3 uppercase tracking-widest border border-white/20">Project
-                                    03</span>
-                                <h4 class="text-white text-2xl font-black uppercase tracking-tighter">Guest Suite</h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(8)">
-                            <img src="assets/111333h.jpg.jpeg" alt="Master Suite">
-                            <div class="img-overlay">
-                                <span
-                                    class="bg-white/10 backdrop-blur-md text-white text-[9px] font-bold py-1 px-3 rounded-full w-fit mb-3 uppercase tracking-widest border border-white/20">Project
-                                    03</span>
-                                <h4 class="text-white text-2xl font-black uppercase tracking-tighter">Modern Master
-                                    Suite</h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Group 4: Final Gallery -->
-                    <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(9)">
-                            <img src="assets/11123.jpg.jpeg" alt="Main Hall">
-                            <div class="img-overlay">
-                                <span
-                                    class="bg-white/10 backdrop-blur-md text-white text-[9px] font-bold py-1 px-3 rounded-full w-fit mb-3 uppercase tracking-widest border border-white/20">Project
-                                    04</span>
-                                <h4 class="text-white text-2xl font-black uppercase tracking-tighter">Architectural Hall
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="bg-black py-20 px-6 text-center text-white">
-            <p class="text-[10px] font-bold tracking-[0.5em] text-stone-600 mb-8 uppercase">© 2026 TALIM ARCHITECTURE
-            </p>
-            <div class="flex justify-center gap-6">
-                <a href="mailto:talimkhan8002@gmail.com"
-                    class="text-white/40 hover:text-white transition-colors">Email</a>
-                <a href="tel:918302108002" class="text-white/40 hover:text-white transition-colors">Phone</a>
-            </div>
-        </footer>
+    <!-- Marquee Tech Stack -->
+    <div class="marquee-container mt-20">
+        <div class="animate-marquee flex">
+            <span class="marquee-text">AutoCAD</span>
+            <span class="marquee-text">Lumion</span>
+            <span class="marquee-text">3ds Max</span>
+            <span class="marquee-text">V-Ray</span>
+            <span class="marquee-text">Revit</span>
+            <span class="marquee-text">Photoshop</span>
+            <span class="marquee-text">SketchUp</span>
+        </div>
+        <div class="animate-marquee flex">
+            <span class="marquee-text">AutoCAD</span>
+            <span class="marquee-text">Lumion</span>
+            <span class="marquee-text">3ds Max</span>
+            <span class="marquee-text">V-Ray</span>
+            <span class="marquee-text">Revit</span>
+            <span class="marquee-text">Photoshop</span>
+            <span class="marquee-text">SketchUp</span>
+        </div>
     </div>
 
-    <!-- Project Modal -->
-    <div id="project-modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                </svg>
-            </button>
-            <div class="modal-body">
-                <div class="modal-grid">
-                    <div class="modal-image-container">
-                        <div class="modal-image-wrapper">
-                            <img id="modal-img" src="" alt="Project Image">
-                        </div>
+    <!-- Portfolio Section -->
+    <section id="work" class="py-40 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
+                <div>
+                    <h2 class="text-6xl md:text-8xl font-black uppercase tracking-tighter reveal">The Works.</h2>
+                    <div class="line-anim reveal" style="width: 100%;"></div>
+                </div>
+                <p class="text-stone-400 text-sm max-w-xs font-medium reveal">
+                    A curated selection of photorealistic visualizations and detailed engineering drawings.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
+                <!-- Project 01: Bedroom 1 -->
+                <div class="reveal group cursor-pointer" onclick="openModal(1)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img id="p1-img" src="assets/FF M BEDROOM.jpg.jpeg" alt="Luxury Master Bedroom">
                     </div>
-                    <div class="modal-info">
+                    <div class="flex justify-between items-start">
                         <div>
-                            <span id="modal-category"
-                                class="text-emerald-600 font-bold text-[10px] uppercase tracking-widest mb-4 block">Residential</span>
-                            <h2 id="modal-title"
-                                class="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-8 uppercase">
-                                Grand Suite</h2>
-                            <p id="modal-desc" class="text-stone-500 text-lg leading-relaxed mb-10">
-                                Detailed architectural visualization focusing on light, texture, and spatial harmony.
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Luxury Master Bedroom</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential Interior</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">01</span>
+                    </div>
+                </div>
+
+                <!-- Project 02: Bedroom 2 -->
+                <div class="reveal group cursor-pointer" onclick="openModal(2)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img id="p2-img" src="assets/FF M 2.jpg.jpeg" alt="Modern Bedroom Luxe">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Modern Bedroom Luxe</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential Interior</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">02</span>
+                    </div>
+                </div>
+
+                <!-- Project 03: Bedroom 3 (Grand Suite) -->
+                <div class="reveal group cursor-pointer" onclick="openModal(3)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img id="p3-img" src="assets/yy2.jpg.jpeg" alt="Grand Suite Bedroom">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Grand Suite Bedroom</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential Exterior</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">03</span>
+                    </div>
+                </div>
+
+                <!-- Project 04: Hall 1 (Modern Master Suite) -->
+                <div class="reveal group cursor-pointer" onclick="openModal(4)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img id="p4-img" src="assets/111333h.jpg.jpeg" alt="Luxury Living Hall">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Luxury Living Hall</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Interior Architecture</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">04</span>
+                    </div>
+                </div>
+
+                <!-- Project 05: Hall 2 (Architectural Hall) -->
+                <div class="reveal group cursor-pointer" onclick="openModal(5)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img id="p5-img" src="assets/11123.jpg.jpeg" alt="Architectural Grand Hall">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Architectural Grand Hall</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Public Assembly</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">05</span>
+                    </div>
+                </div>
+
+                <!-- Project 06: Hall 3 (Guest Lounge) -->
+                <div class="reveal group cursor-pointer" onclick="openModal(6)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img id="p6-img" src="assets/qwertyu.jpg.jpeg" alt="Guest Premium Lounge">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Guest Premium Lounge</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Interior Visualization</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">06</span>
+                    </div>
+                </div>
+
+                <!-- Project 07: Kitchen -->
+                <div class="reveal group cursor-pointer" onclick="openModal(7)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img id="p7-img" src="assets/nk 2.jpg.jpeg" alt="Premium Modular Kitchen">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Premium Modular Kitchen</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Technical Design</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">07</span>
+                    </div>
+                </div>
+
+                <!-- Project 08: Office/Alt Kitchen -->
+                <div class="reveal group cursor-pointer" onclick="openModal(8)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img id="p8-img" src="assets/nk 1.jpg.jpeg" alt="Contemporary Kitchen Space">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Contemporary Kitchen Space</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Commercial Drafting</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">08</span>
+                    </div>
+                </div>
+
+                <!-- Project 09: Extra Bedroom -->
+                <div class="reveal group cursor-pointer" onclick="openModal(9)">
+                    <div class="img-container aspect-video mb-8 border border-stone-200 shadow-lg">
+                        <img id="p9-img" src="assets/FF M 3.jpg.jpeg" alt="Modern Guest Suite">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-2xl font-black uppercase tracking-tighter">Modern Guest Suite</h4>
+                            <p class="text-stone-400 text-[10px] font-bold uppercase tracking-widest mt-2">Residential Detail</p>
+                        </div>
+                        <span class="text-stone-300 text-3xl italic serif">09</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience / About -->
+    <section id="about" class="py-40 bg-stone-900 text-white rounded-[4rem] mx-4">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-32">
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-[0.5em] text-stone-500 mb-12">The Journey</h3>
+                    <div class="space-y-20">
+                        <div class="reveal">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-3xl font-black uppercase tracking-tight">YK Engineering</h4>
+                                <span class="text-xs font-bold text-stone-500 italic">2022 — NOW</span>
+                            </div>
+                            <p class="text-stone-400 leading-relaxed mb-6 font-medium">
+                                As a lead Architectural Designer, I've redefined 2D and 3D workflows, delivering over
+                                550 projects with a focus on structural integrity and visual brilliance.
+                            </p>
+                            <div class="flex flex-wrap gap-4 text-[9px] font-black uppercase tracking-widest">
+                                <span class="border border-white/10 px-3 py-1 rounded">550+ Projects</span>
+                                <span class="border border-white/10 px-3 py-1 rounded">Client Lead</span>
+                                <span class="border border-white/10 px-3 py-1 rounded">CAD Specialist</span>
+                            </div>
+                        </div>
+
+                        <div class="reveal">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-3xl font-black uppercase tracking-tight">CADD Center Sikar</h4>
+                                <span class="text-xs font-bold text-stone-500 italic">2020 — 2022</span>
+                            </div>
+                            <p class="text-stone-400 leading-relaxed font-medium">
+                                Master Diploma in Architecture Design. Specialized training in advanced rendering
+                                engines and BIM software.
                             </p>
                         </div>
-                        <div class="space-y-8">
-                            <div>
-                                <h4 class="font-bold text-xs uppercase tracking-widest text-stone-400 mb-4">Technologies
-                                    Used</h4>
-                                <div id="modal-tech" class="flex flex-wrap gap-3">
-                                    <span class="tech-pill">AutoCAD</span>
-                                    <span class="tech-pill">3ds Max</span>
-                                    <span class="tech-pill">V-Ray</span>
-                                </div>
-                            </div>
-                            <div class="p-8 bg-white border border-stone-100 rounded-3xl shadow-sm">
-                                <h4 class="font-bold text-xs uppercase tracking-widest text-stone-400 mb-2">Project
-                                    Scale</h4>
-                                <p id="modal-scale" class="font-bold text-xl uppercase italic">High-End Residential</p>
-                            </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-[0.5em] text-stone-500 mb-12">Expertise</h3>
+                    <div class="space-y-12">
+                        <div
+                            class="reveal p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-white/20 transition-all">
+                            <h5 class="text-xl font-bold uppercase tracking-tight mb-2">2D Drafting & Detailing</h5>
+                            <p class="text-stone-500 text-sm">Working drawings, floor plans, and municipal submission
+                                sheets with millimeter precision.</p>
+                        </div>
+                        <div
+                            class="reveal p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-white/20 transition-all">
+                            <h5 class="text-xl font-bold uppercase tracking-tight mb-2">3D Photorealism</h5>
+                            <p class="text-stone-500 text-sm">Creating atmospheric exteriors and interiors using Lumion
+                                and V-Ray Global Illumination.</p>
+                        </div>
+                        <div
+                            class="reveal p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-white/20 transition-all">
+                            <h5 class="text-xl font-bold uppercase tracking-tight mb-2">Project Coordination</h5>
+                            <p class="text-stone-500 text-sm">Managing the workflow from client brief to final delivery
+                                and site coordination.</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="nav-button prev-btn" onclick="prevProject()">Previous</button>
-            <button class="nav-button next-btn" onclick="nextProject()">Next Project</button>
+        </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section id="contact" class="py-60 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="reveal text-8xl md:text-[12rem] font-black tracking-tighter uppercase mb-16">
+                Let's <br>Talk.
+            </h2>
+            <div class="reveal space-y-4">
+                <a href="mailto:talimkhan8002@gmail.com"
+                    class="text-4xl font-bold border-b-4 border-stone-200 hover:border-black transition-all pb-2 inline-block">talimkhan8002@gmail.com</a>
+                <p class="text-stone-400 font-bold uppercase tracking-widest text-sm">+91 83021 08002</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="text-center md:text-left">
+                <p class="font-black text-2xl uppercase tracking-tighter">TALIM.</p>
+                <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mt-1">Architecture &
+                    Engineering</p>
+            </div>
+            <div class="flex gap-10 text-[10px] font-bold uppercase tracking-widest text-stone-400">
+                <p>© 2026 Rajasthan, India</p>
+                <a href="#work" class="hover:text-black">Portfolio</a>
+                <a href="#contact" class="hover:text-black">Email Me</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="fixed inset-0 z-[200] hidden opacity-0 transition-opacity duration-500 overflow-y-auto bg-stone-50/98 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-6 py-32 relative">
+            <button onclick="closeModal()" class="fixed top-12 right-12 z-[210] w-12 h-12 rounded-full border border-stone-200 flex items-center justify-center hover:bg-stone-900 hover:text-white transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+            </button>
+            
+            <div class="grid lg:grid-cols-12 gap-20 items-start">
+                <div class="lg:col-span-12 mb-10">
+                   <p id="modal-category" class="text-accent font-bold text-xs uppercase tracking-[0.4em] mb-4">Residential Architecture</p>
+                   <h2 id="modal-title" class="text-6xl md:text-8xl font-black uppercase tracking-tighter">Project Title</h2>
+                </div>
+                
+                <div class="lg:col-span-8">
+                    <div class="img-container aspect-video rounded-3xl shadow-2xl border border-stone-200 overflow-hidden mb-10">
+                        <img id="modal-img" src="" alt="Project Detail" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-4 space-y-12">
+                    <div class="p-10 bg-white rounded-3xl border border-stone-100 shadow-sm">
+                        <h4 class="text-[10px] font-black uppercase tracking-widest text-stone-300 mb-6">Technical Specifications</h4>
+                        <div class="space-y-6">
+                            <div class="flex justify-between border-b border-stone-50 pb-4">
+                                <span class="text-[10px] font-bold uppercase text-stone-400">Year</span>
+                                <span id="modal-year" class="text-sm font-black tabular-nums">2024</span>
+                            </div>
+                            <div class="flex justify-between border-b border-stone-50 pb-4">
+                                <span class="text-[10px] font-bold uppercase text-stone-400">Client</span>
+                                <span id="modal-client" class="text-sm font-black uppercase">Private</span>
+                            </div>
+                            <div class="flex justify-between border-b border-stone-50 pb-4">
+                                <span class="text-[10px] font-bold uppercase text-stone-400">Scale</span>
+                                <span id="modal-scale" class="text-sm font-black uppercase tabular-nums">8,500 SQ FT</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-[10px] font-bold uppercase text-stone-400">Status</span>
+                                <span id="modal-status" class="text-sm font-black uppercase text-emerald-500 italic">Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-[10px] font-black uppercase tracking-widest text-stone-300 mb-6">Description</h4>
+                        <p id="modal-desc" class="text-stone-500 font-medium leading-relaxed italic">Detailed architectural visualization focusing on light, texture, and spatial harmony.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-[10px] font-black uppercase tracking-widest text-stone-300 mb-6">Software Stack</h4>
+                        <div id="modal-tech" class="flex flex-wrap gap-2">
+                           <!-- Tech pills injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="fixed bottom-12 left-1/2 -translate-x-1/2 flex gap-4">
+            <button onclick="prevProject()" class="bg-white px-8 py-3 rounded-2xl border border-stone-200 text-[10px] font-black uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all shadow-xl">Prev</button>
+            <button onclick="nextProject()" class="bg-white px-8 py-3 rounded-2xl border border-stone-200 text-[10px] font-black uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all shadow-xl">Next</button>
         </div>
     </div>
 
-    <!-- Hidden Input -->
-    <input type="file" id="fileInput" class="hidden" accept="image/*">
+    <!-- Hidden Input for Image Uploading -->
+    <input type="file" id="imageInput" class="hidden" accept="image/*">
 
-    <script Antigravity-Hidden-Input>
-        let currentImgId = null;
+    <script>
+        // --- DATA ---
+        const projects = [
+            { id: 'hero-img', title: "Talim Khan", category: "Architectural Designer", image: "assets/profile.png", year: "2022-Now", client: "Public", scale: "Lead Designer", status: "Active", desc: "Specialized in high-precision 2D drafting and cinematic 3D visualization. Over 550+ projects delivered with technical excellence.", tech: ["AutoCAD", "Lumion", "3ds Max", "Revit", "V-Ray"] },
+            { id: 'p1', title: "Luxury Master Bedroom", category: "Residential Interior", image: "assets/FF M BEDROOM.jpg.jpeg", year: "2023", client: "Private", scale: "450 SQ FT", status: "Delivered", desc: "Intimate master suite visualization focusing on cinematic material interplay and high-end lighting dynamics.", tech: ["3ds Max", "V-Ray", "Photoshop"] },
+            { id: 'p2', title: "Modern Bedroom Luxe", category: "Residential Interior", image: "assets/FF M 2.jpg.jpeg", year: "2023", client: "Private", scale: "420 SQ FT", status: "Completed", desc: "Contemporary interior detailing featuring integrated smart lighting and bespoke cabinetry systems.", tech: ["SketchUp", "V-Ray", "AutoCAD"] },
+            { id: 'p3', title: "Grand Suite Bedroom", category: "Residential Interior", image: "assets/yy2.jpg.jpeg", year: "2024", client: "Private", scale: "8,500 SQ FT", status: "Completed", desc: "A massive luxury villa project featuring modernist facade engineering and complex volumetric spatial planning.", tech: ["AutoCAD", "Lumion", "3ds Max"] },
+            { id: 'p4', title: "Luxury Living Hall", category: "Interior Architecture", image: "assets/111333h.jpg.jpeg", year: "2023", client: "Private", scale: "750 SQ FT", status: "Completed", desc: "High-spec living hall focusing on atmospheric lighting and premium spatial flow.", tech: ["AutoCAD", "V-Ray", "Photoshop"] },
+            { id: 'p5', title: "Architectural Grand Hall", category: "Public Assembly", image: "assets/11123.jpg.jpeg", year: "2024", client: "Municipal", scale: "15,000 SQ FT", status: "Conceptual", desc: "Grand assembly hall focusing on life safety standards, massive circulation volumes, and grand acoustic engineering.", tech: ["AutoCAD", "BIM", "V-Ray"] },
+            { id: 'p6', title: "Guest Premium Lounge", category: "Interior Visualization", image: "assets/qwertyu.jpg.jpeg", year: "2023", client: "Private", scale: "550 SQ FT", status: "Completed", desc: "Cinematic media room design featuring integrated acoustic treatment and concealed storage.", tech: ["3ds Max", "Lumion", "V-Ray"] },
+            { id: 'p7', title: "Premium Modular Kitchen", category: "Technical Design", image: "assets/nk 2.jpg.jpeg", year: "2024", client: "Commercial", scale: "Technical Work", status: "Approved", desc: "Advanced modular kitchen engineering focusing on ergonomic workflows and integrated appliance systems.", tech: ["AutoCAD", "Revit", "Photoshop"] },
+            { id: 'p8', title: "Contemporary Kitchen Space", category: "Commercial Drafting", image: "assets/nk 1.jpg.jpeg", year: "2024", client: "Corporate", scale: "12,000 SQ FT", status: "Final Stage", desc: "A high-end glass-facade plaza focusing on energy-efficient envelope design and open collaborative workspaces.", tech: ["Revit", "AutoCAD", "Lumion"] },
+            { id: 'p9', title: "Modern Guest Suite", category: "Residential Detail", image: "assets/FF M 3.jpg.jpeg", year: "2024", client: "Private", scale: "1,200 SQ FT", status: "Built", desc: "Self-sustaining guest building featuring high-end architectural finishes and independent utility systems.", tech: ["Revit", "3ds Max", "V-Ray"] }
+        ];
 
-        function triggerUpload(id) {
-            currentImgId = id;
-            document.getElementById('fileInput').click();
+        let currentProjectIndex = 0;
+
+        // --- ANIMATIONS (GSAP) ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        const tl = gsap.timeline();
+        tl.to("#loader-bar", { width: "100%", duration: 1.5, ease: "power4.inOut" })
+          .to("#loader", { y: "-100%", duration: 0.8, ease: "power4.inOut" });
+
+        gsap.utils.toArray(".reveal").forEach((elem) => {
+            gsap.fromTo(elem, 
+                { opacity: 0, y: 30 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 1.2, 
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 90%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        gsap.to(".animate-marquee", {
+            xPercent: -50,
+            repeat: -1,
+            duration: 25,
+            ease: "none"
+        });
+
+        const cursor = document.getElementById("cursor");
+        document.addEventListener("mousemove", (e) => {
+            gsap.to(cursor, {
+                x: e.clientX - 10,
+                y: e.clientY - 10,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        // --- MODAL LOGIC ---
+        function openModal(index) {
+            currentProjectIndex = index;
+            const p = projects[index];
+            
+            document.getElementById('modal-title').innerText = p.title;
+            document.getElementById('modal-category').innerText = p.category;
+            document.getElementById('modal-img').src = p.image;
+            document.getElementById('modal-year').innerText = p.year;
+            document.getElementById('modal-client').innerText = p.client;
+            document.getElementById('modal-scale').innerText = p.scale;
+            document.getElementById('modal-status').innerText = p.status;
+            document.getElementById('modal-desc').innerText = p.desc;
+            
+            const techContainer = document.getElementById('modal-tech');
+            techContainer.innerHTML = '';
+            p.tech.forEach(t => {
+                const span = document.createElement('span');
+                span.className = 'px-3 py-1 rounded-full border border-stone-200 text-[9px] font-black uppercase tracking-widest';
+                span.innerText = t;
+                techContainer.appendChild(span);
+            });
+
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.add('opacity-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            
+            gsap.from("#project-modal .img-container", { scale: 0.9, opacity: 0, duration: 1, ease: "power4.out" });
+            gsap.from("#project-modal h2, #project-modal p, #project-modal .p-10", { y: 40, opacity: 0, stagger: 0.1, duration: 1, ease: "power4.out" });
         }
 
-        document.getElementById('fileInput').addEventListener('change', function (e) {
+        function closeModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 500);
+            document.body.style.overflow = '';
+        }
+
+        function nextProject() { currentProjectIndex = (currentProjectIndex + 1) % projects.length; openModal(currentProjectIndex); }
+        function prevProject() { currentProjectIndex = (currentProjectIndex - 1 + projects.length) % projects.length; openModal(currentProjectIndex); }
+
+        // --- IMAGE HANDLING LOGIC ---
+        let currentImgTargetId = null;
+        function triggerUpload(id) {
+            currentImgTargetId = id;
+            document.getElementById('imageInput').click();
+        }
+
+        document.getElementById('imageInput').addEventListener('change', function (e) {
             const file = e.target.files[0];
-            if (file && currentImgId) {
+            if (file && currentImgTargetId) {
                 const reader = new FileReader();
                 reader.onload = function (event) {
-                    const img = document.getElementById(currentImgId);
-                    img.src = event.target.result;
-                    img.classList.remove('hidden');
-
-                    // Hide placeholder text for profile
-                    if (currentImgId === 'profile-img') {
-                        document.getElementById('profile-hint').classList.add('hidden');
+                    const imgElem = document.getElementById(currentImgTargetId);
+                    imgElem.src = event.target.result;
+                    imgElem.classList.remove('hidden');
+                    if (currentImgTargetId === 'hero-img') {
+                        const placeholder = document.getElementById('hero-placeholder');
+                        if(placeholder) placeholder.classList.add('hidden');
                     }
+                    const placeholder = imgElem.parentElement.querySelector('div');
+                    if (placeholder) placeholder.classList.add('hidden');
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        // Navbar effect
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('glass-header');
-                nav.classList.add('shadow-sm');
-                nav.classList.remove('py-5');
-                nav.classList.add('py-3');
-            } else {
-                nav.classList.remove('glass-header');
-                nav.classList.remove('shadow-sm');
-                nav.classList.add('py-5');
-                nav.classList.remove('py-3');
-            }
-        });
+        // Close on Esc
+        window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
     </script>
 </body>
 
