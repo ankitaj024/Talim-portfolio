@@ -28,6 +28,10 @@
             overflow-x: hidden;
         }
 
+        body.modal-open {
+            overflow: hidden;
+        }
+
         #main-container {
             min-height: 100vh;
             display: block !important;
@@ -121,6 +125,149 @@
         .mask-image {
             mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
         }
+
+        /* Modal Styles */
+        #project-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: rgba(250, 250, 249, 0.98);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        #project-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1100;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: #000;
+            color: #fff;
+        }
+
+        .modal-body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+            width: 100%;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-cols: 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .modal-grid {
+                grid-template-cols: 1.5fr 1fr;
+            }
+        }
+
+        .modal-image-container {
+            position: relative;
+        }
+
+        @media (min-width: 1024px) {
+            .modal-image-container {
+                position: sticky;
+                top: 8rem;
+            }
+        }
+
+        .modal-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .modal-image-wrapper {
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.15);
+            background: #f1f1f1;
+        }
+
+        .modal-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .tech-pill {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-button {
+            position: fixed;
+            bottom: 2rem;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 1.25rem 2.5rem;
+            border-radius: 1.5rem;
+            font-weight: 800;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            z-index: 1100;
+        }
+
+        .nav-button:hover {
+            background: #000;
+            color: #fff;
+            transform: translateY(-5px);
+        }
+
+        .prev-btn {
+            left: 2rem;
+        }
+
+        .next-btn {
+            right: 2rem;
+        }
     </style>
 </head>
 
@@ -175,7 +322,7 @@
                     </div>
                 </div>
                 <div class="relative">
-                    <div class="aspect-[4/5] img-card shadow-2xl" onclick="triggerUpload('profile-img')">
+                    <div class="aspect-[4/5] img-card shadow-2xl" onclick="openModal(0)">
                         <img id="profile-img" src="assets/profile.png" alt="Profile">
                         <div id="profile-hint" class="text-center p-8 opacity-40 hidden">
                             <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -278,7 +425,7 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <!-- Group 1: Primary Residential -->
                     <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8">
+                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(1)">
                             <img src="assets/yy2.jpg.jpeg" alt="Master Suite">
                             <div class="img-overlay">
                                 <span
@@ -291,7 +438,7 @@
                     </div>
 
                     <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8">
+                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(2)">
                             <img src="assets/FF M BEDROOM.jpg.jpeg" alt="Bedroom A">
                             <div class="img-overlay">
                                 <span
@@ -304,7 +451,7 @@
                     </div>
 
                     <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8">
+                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(3)">
                             <img src="assets/FF M 2.jpg.jpeg" alt="Bedroom B">
                             <div class="img-overlay">
                                 <span
@@ -318,7 +465,7 @@
 
                     <!-- Group 2: Functional Spaces -->
                     <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8">
+                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(4)">
                             <img src="assets/FF M 3.jpg.jpeg" alt="Modular Kitchen">
                             <div class="img-overlay">
                                 <span
@@ -331,7 +478,7 @@
                     </div>
 
                     <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8">
+                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(5)">
                             <img src="assets/nk 2.jpg.jpeg" alt="TV Lounge">
                             <div class="img-overlay">
                                 <span
@@ -344,7 +491,7 @@
                     </div>
 
                     <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8">
+                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(6)">
                             <img src="assets/nk 1.jpg.jpeg" alt="Commercial Office">
                             <div class="img-overlay">
                                 <span
@@ -357,7 +504,7 @@
 
                     <!-- Group 3: Residential Continued -->
                     <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8">
+                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(7)">
                             <img src="assets/qwertyu.jpg.jpeg" alt="Guest Room">
                             <div class="img-overlay">
                                 <span
@@ -369,7 +516,7 @@
                     </div>
 
                     <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8">
+                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(8)">
                             <img src="assets/111333h.jpg.jpeg" alt="Master Suite">
                             <div class="img-overlay">
                                 <span
@@ -383,7 +530,7 @@
 
                     <!-- Group 4: Final Gallery -->
                     <div class="group">
-                        <div class="aspect-[4/3] img-card mb-8">
+                        <div class="aspect-[4/3] img-card mb-8" onclick="openModal(9)">
                             <img src="assets/11123.jpg.jpeg" alt="Main Hall">
                             <div class="img-overlay">
                                 <span
@@ -410,10 +557,60 @@
         </footer>
     </div>
 
+    <!-- Project Modal -->
+    <div id="project-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                </svg>
+            </button>
+            <div class="modal-body">
+                <div class="modal-grid">
+                    <div class="modal-image-container">
+                        <div class="modal-image-wrapper">
+                            <img id="modal-img" src="" alt="Project Image">
+                        </div>
+                    </div>
+                    <div class="modal-info">
+                        <div>
+                            <span id="modal-category"
+                                class="text-emerald-600 font-bold text-[10px] uppercase tracking-widest mb-4 block">Residential</span>
+                            <h2 id="modal-title"
+                                class="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-8 uppercase">
+                                Grand Suite</h2>
+                            <p id="modal-desc" class="text-stone-500 text-lg leading-relaxed mb-10">
+                                Detailed architectural visualization focusing on light, texture, and spatial harmony.
+                            </p>
+                        </div>
+                        <div class="space-y-8">
+                            <div>
+                                <h4 class="font-bold text-xs uppercase tracking-widest text-stone-400 mb-4">Technologies
+                                    Used</h4>
+                                <div id="modal-tech" class="flex flex-wrap gap-3">
+                                    <span class="tech-pill">AutoCAD</span>
+                                    <span class="tech-pill">3ds Max</span>
+                                    <span class="tech-pill">V-Ray</span>
+                                </div>
+                            </div>
+                            <div class="p-8 bg-white border border-stone-100 rounded-3xl shadow-sm">
+                                <h4 class="font-bold text-xs uppercase tracking-widest text-stone-400 mb-2">Project
+                                    Scale</h4>
+                                <p id="modal-scale" class="font-bold text-xl uppercase italic">High-End Residential</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="nav-button prev-btn" onclick="prevProject()">Previous</button>
+            <button class="nav-button next-btn" onclick="nextProject()">Next Project</button>
+        </div>
+    </div>
+
     <!-- Hidden Input -->
     <input type="file" id="fileInput" class="hidden" accept="image/*">
 
-    <script>
+    <script Antigravity-Hidden-Input>
         let currentImgId = null;
 
         function triggerUpload(id) {
