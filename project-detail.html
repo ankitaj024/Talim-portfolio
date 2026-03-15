@@ -138,6 +138,13 @@
         </span>
     </a>
 
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 bg-black/95 z-[100] hidden items-center justify-center cursor-zoom-out">
+        <img id="lightbox-img" src="" alt="Fullscreen Image"
+            class="max-w-[95%] max-h-[95vh] object-contain rounded-2xl border border-white/10 shadow-3xl pointer-events-none">
+        <button class="absolute top-6 right-10 text-white/50 hover:text-white text-4xl font-light">&times;</button>
+    </div>
+
     <!-- Load Project Data -->
     <script src="assets/js/projects.js"></script>
     <script>
@@ -170,7 +177,7 @@
                 // Alternating sizes for a "good" layout
                 const isLarge = index % 3 === 0;
                 container.className = `img-container ${isLarge ? 'aspect-video col-span-2' : 'aspect-square'} rounded-3xl shadow-2xl border border-stone-200 overflow-hidden reveal`;
-                container.innerHTML = `<img src="${imgSrc}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">`;
+                container.innerHTML = `<img src="${imgSrc}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 cursor-zoom-in" onclick="openLightbox('${imgSrc}')" alt="Gallery Details">`;
                 gallery.appendChild(container);
             });
 
@@ -190,6 +197,31 @@
             gsap.to("#project-app", { opacity: 1, duration: 1 });
             initAnimations();
         }
+
+        // --- LIGHTBOX FUNCTIONS ---
+        function openLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lightbox-img');
+            lbImg.src = src;
+            lb.classList.remove('hidden');
+            lb.classList.add('flex');
+            gsap.fromTo(lbImg,
+                { scale: 0.8, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
+            );
+        }
+
+        document.getElementById('lightbox').addEventListener('click', () => {
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lightbox-img');
+            // Animation scale down on close
+            gsap.to(lbImg, {
+                scale: 0.8, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => {
+                    lb.classList.add('hidden');
+                    lb.classList.remove('flex');
+                }
+            });
+        });
 
         // --- SMOOTH SCROLL (LENIS) ---
         const lenis = new Lenis()
