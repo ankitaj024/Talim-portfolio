@@ -35,7 +35,7 @@
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center glass transition-all duration-500">
         <div class="text-white">
-            <p class="font-black text-xl tracking-tighter uppercase">Talim.</p>
+            <p class="font-black text-xl tracking-tighter uppercase  text-black">Talim.</p>
         </div>
         <div class="flex gap-10 items-center">
             <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-widest text-black/60">
@@ -117,7 +117,7 @@
                         class="serif italic text-stone-300">Categories.</span></h2>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-8">
                 <!-- Interior Category Card -->
                 <div class="reveal group relative h-[600px] overflow-hidden rounded-3xl cursor-pointer"
                     onclick="window.location.href='interior.html'">
@@ -160,9 +160,27 @@
                     </div>
                 </div>
 
-                <!-- Project 03 (Removed Planning) -->
+                <!-- Planning Category Card -->
+                <div class="reveal group relative h-[600px] overflow-hidden rounded-3xl cursor-pointer"
+                    onclick="window.location.href='planning.html'">
+                    <img src="assets/PLAN 1.jpeg"
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-stone-900/40 group-hover:bg-stone-900/20 transition-all duration-500">
+                    </div>
+                    <div
+                        class="absolute inset-x-0 bottom-0 p-10 translate-y-10 group-hover:translate-y-0 transition-all duration-500">
+                        <h3 class="text-4xl font-black text-white uppercase tracking-tighter mb-4">Planning<br><span
+                                class="serif italic normal-case text-2xl">Drafting & Detail</span></h3>
+                        <p
+                            class="text-white/60 text-xs font-bold uppercase tracking-widest mb-8 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+                            Technical Drawings & Layouts</p>
+                        <span
+                            class="inline-block px-8 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full opacity-0 group-hover:opacity-100 transition-opacity delay-300">View
+                            Projects</span>
+                    </div>
+                </div>
             </div>
-        </div>
     </section>
 
     <!-- Experience / About -->

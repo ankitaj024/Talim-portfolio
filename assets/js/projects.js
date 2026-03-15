@@ -104,5 +104,54 @@ const projects = {
         status: "Completed",
         desc: "High-spec commercial facades engineered for performance aesthetics, drawing inspiration from contemporary urban layout dynamics.",
         tech: ["AutoCAD", "V-Ray", "Lumion"]
+    },
+    6: {
+        title: "Architectural Plans",
+        category: "Planning & Drafting",
+        mainImage: "assets/PLAN 1.jpeg",
+        gallery: [
+            "assets/PLAN 1.jpeg",
+            "assets/PLAN 2.jpeg"
+        ],
+        year: "2024",
+        scale: "Various",
+        status: "Completed",
+        desc: "Detailed architectural layouts and floor plans focusing on space optimization and flow.",
+        tech: ["AutoCAD"]
+    },
+    7: {
+        title: "Working Elevations",
+        category: "Planning & Drafting",
+        mainImage: "assets/WORKING 1.jpeg",
+        gallery: [
+            "assets/WORKING 1.jpeg",
+            "assets/WORKING 2.jpeg",
+            "assets/WORKING 3.jpeg",
+            "assets/WORKING 4.jpeg",
+            "assets/WORKING 5.jpeg",
+            "assets/WORKING 6.jpeg",
+            "assets/WORKING 7.jpeg"
+        ],
+        year: "2024",
+        scale: "Various",
+        status: "Completed",
+        desc: "Technical working elevations for on-site execution and structural coordination.",
+        tech: ["AutoCAD"]
+    },
+    8: {
+        title: "2D Elevations Concept",
+        category: "Planning & Drafting",
+        mainImage: "assets/2D ELEVATION 1.jpeg",
+        gallery: [
+            "assets/2D ELEVATION 1.jpeg",
+            "assets/2D ELEVATION 2.jpeg",
+            "assets/2D ELEVATION 3.jpeg",
+            "assets/2D ELEVATION 4.jpeg"
+        ],
+        year: "2024",
+        scale: "Various",
+        status: "Completed",
+        desc: "Clean 2D elevations representing facade compositions and material specifications.",
+        tech: ["AutoCAD", "Photoshop"]
     }
 };
